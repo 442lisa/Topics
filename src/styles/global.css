@@ -1,0 +1,139 @@
+/* ========================== */
+/* 🌐 通用設定（整體樣式） */
+/* ========================== */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", sans-serif; /* 使用思源黑體 */
+  background-color: #f5f5f5; /* 整體頁面背景 */
+}
+
+a {
+  text-decoration: none; /* 移除超連結底線 */
+  color: #333; /* 超連結預設顏色 */
+}
+
+label {
+  white-space: nowrap; /* 標籤內容不自動換行（ex: 身分選擇） */
+}
+
+
+/* ========================== */
+/* 📦 登入/註冊主容器樣式 */
+/* ========================== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 全畫面置中 */
+  background-color: #f4f4f4; /* 淺灰底 */
+}
+
+.auth-box {
+  background: white; /* 白色卡片底 */
+  padding: 20px; /* 內距 */
+  border-radius: 10px; /* 圓角 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 陰影 */
+  text-align: center; /* 內部文字置中 */
+  width: 300px; /* 固定寬度 */
+}
+
+
+/* ========================== */
+/* 🧭 標題與 LOGO 樣式 */
+/* ========================== */
+.logo {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+/* ========================== */
+/* 🖊️ 輸入欄位樣式 */
+/* ========================== */
+.input-field,
+.auth-box input {
+  display: block;
+  width: 80%;
+  max-width: 250px;
+  padding: 8px 10px;
+  margin: 10px auto;
+}
+
+
+/* ========================== */
+/* 🔘 身分選擇（單選） */
+/* ========================== */
+.role-selection {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.role-selection label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+
+/* ========================== */
+/* 🔲 登入/註冊按鈕 */
+/* ========================== */
+.auth-box button,
+.auth-button {
+  background: #404040;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 8px 20px;
+  width: fit-content;
+  display: block;
+}
+
+.auth-box button {
+  float: right; /* 傳統 float（已不建議，但保留說明） */
+  padding: 10px;
+}
+
+
+/* ========================== */
+/* 🔁 切換登入/註冊連結 */
+/* ========================== */
+.switch-link {
+  text-align: right; /* 切換帳號連結靠右 */
+}
+
+
+/* ========================== */
+/* 🔚 按鈕＋切換連結區塊 */
+/* ========================== */
+.form-footer {
+  text-align: right;
+  margin-right: 25px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* 讓整個區塊內容靠右對齊 */
+}
+
+.form-footer .auth-button {
+  margin-bottom: 8px; /* 按鈕與連結間距 */
+}
+
+
+/* ========================== */
+/* 🏠 回首頁連結（置中） */
+/* ========================== */
+.home-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.home-link a {
+  color: #555;
+  text-decoration: none;
+  font-size: 14px;
+}

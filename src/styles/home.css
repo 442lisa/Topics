@@ -1,0 +1,46 @@
+.home-container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #eee;
+  padding: 10px;
+  position: relative; /* 🔧 為了讓底部登入連結定位 */
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  justify-content: center;
+}
+
+.map {
+  flex: 1;
+}
+
+.nav-list {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.auth-links {
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  font-size: 14px;
+}
+
+.auth-links a {
+  color: #333;
+  text-decoration: none;
+  margin: 0 5px;
+}

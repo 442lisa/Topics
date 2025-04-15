@@ -1,48 +1,31 @@
-import { Form, Input, Button, message } from 'antd';
+import "../styles/global.css";
+import "../styles/login.css";
+import { Link } from "react-router-dom";
 
-const Login = () => {
-  const onFinish = (values) => {
-    console.log('Login success:', values);
-    message.success('登入成功！');
-  };
-
+export default function Login() {
   return (
-    <div className="login-container">
-      <div className="form-wrapper">
-        {/* 新增標題「活動地圖」 */}
-        <h1 className="form-title-large">活動地圖</h1>
-        <h2 className="form-title">登入</h2>
+    <div className="auth-container">
+      <div className="auth-box">
+        <h1 className="logo">活動地圖</h1>
+        <h2>登入</h2>
+        <form>
+          <input type="text" className="input-field" placeholder="帳號" required />
+          <input type="password" className="input-field" placeholder="密碼" required />
 
-        <Form
-          name="login"
-          onFinish={onFinish}
-          layout="vertical"
-        >
-          <Form.Item
-            label="使用者名稱"
-            name="username"
-            rules={[{ required: true, message: '請輸入使用者名稱' }]}
-          >
-            <Input />
-          </Form.Item>
+          {/* ✅ 包一層讓按鈕跟切換文字都在一起，且靠右 */}
+          <div className="form-footer">
+            <button type="submit" className="auth-button">登入</button>
+            <div className="switch-link">
+              沒有帳號？<Link to="/register">點擊註冊</Link>
+            </div>
+          </div>
+        </form>
 
-          <Form.Item
-            label="密碼"
-            name="password"
-            rules={[{ required: true, message: '請輸入密碼' }]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              登入
-            </Button>
-          </Form.Item>
-        </Form>
+        {/* ✅ 回首頁置中 */}
+        <div className="home-link">
+          <Link to="/">← 回首頁</Link>
+        </div>
       </div>
     </div>
   );
-};
-
-export default Login;
+}

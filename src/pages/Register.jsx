@@ -1,68 +1,44 @@
-import { Form, Input, Button, message } from 'antd';
+import "../styles/global.css";
+import "../styles/register.css";
+import { Link } from "react-router-dom";
 
-const Register = () => {
-  const onFinish = (values) => {
-    console.log('Register success:', values);
-    message.success('註冊成功！');
-  };
-
+export default function Register() {
   return (
-    <div className="login-container">
-      <div className="form-wrapper">
-        {/* 新增標題「活動地圖」 */}
-        <h1 className="form-title-large">活動地圖</h1>
-        <h2 className="form-title">註冊</h2>
+    <div className="auth-container">
+      <div className="auth-box">
+        <h1 className="logo">活動地圖</h1>
+        <h2>註冊</h2>
+        <form>
+          <div className="role-selection">
+            <label>
+              <input type="radio" name="role" value="organizer" required />
+              活動主辦方
+            </label>
+            <label>
+              <input type="radio" name="role" value="user" required />
+              一般用戶
+            </label>
+          </div>
+          <input type="text" className="input-field" placeholder="用戶名稱" required />
+          <input type="email" className="input-field" placeholder="電子郵件" required />
+          <input type="tel" className="input-field" placeholder="手機號碼" required />
+          <input type="text" className="input-field" placeholder="帳號" required />
+          <input type="password" className="input-field" placeholder="密碼" required />
 
-        <Form
-          name="register"
-          onFinish={onFinish}
-          layout="vertical"
-        >
-          <Form.Item
-            label="使用者名稱"
-            name="username"
-            rules={[{ required: true, message: '請輸入使用者名稱' }]}
-          >
-            <Input />
-          </Form.Item>
+          {/* ✅ 包一層讓按鈕跟切換連結都在一起，且靠右 */}
+          <div className="form-footer">
+            <button type="submit" className="auth-button">註冊</button>
+            <div className="switch-link">
+              已經有帳號？<Link to="/login">點擊登入</Link>
+            </div>
+          </div>
+        </form>
 
-          <Form.Item
-            label="密碼"
-            name="password"
-            rules={[{ required: true, message: '請輸入密碼' }]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item
-            label="確認密碼"
-            name="confirmPassword"
-            dependencies={['password']}
-            rules={[
-              { required: true, message: '請再次輸入密碼' },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error('兩次輸入的密碼不一致'));
-                },
-              }),
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              註冊
-            </Button>
-          </Form.Item>
-        </Form>
+        {/* ✅ 回首頁置中 */}
+        <div className="home-link">
+          <Link to="/">← 回首頁</Link>
+        </div>
       </div>
     </div>
   );
-};
-
-export default Register;
-
+}
