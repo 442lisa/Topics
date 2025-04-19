@@ -1,37 +1,83 @@
+/* ===== 主畫面容器（整體排版用 flex）===== */
 .home-container {
   display: flex;
   height: 100vh;
 }
 
+/* ===== 側邊欄容器（左側導覽）===== */
 .sidebar {
+  width: 180px;
+  background-color: #ffffff;
+  padding: 10px;
+  position: relative; /* 為了讓底部登入連結定位 */
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+/* 側邊欄展開時的寬度 */
+.sidebar.open {
   width: 200px;
-  background-color: #eee;
-  padding: 10px;
-  position: relative; /* 🔧 為了讓底部登入連結定位 */
 }
 
-.main-content {
-  flex: 1;
+/* 側邊欄收合時變窄 */
+.sidebar.collapsed {
+  width: fit-content;
+}
+
+/* 側邊欄標題區（含漢堡按鈕） */
+.sidebar-header {
   display: flex;
-  flex-direction: column;
-}
-
-.search-bar {
-  display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
-  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
 }
 
-.map {
-  flex: 1;
+/* 側邊欄標題文字 */
+.sidebar-title {
+  margin: 0;
 }
 
+/* 漢堡選單按鈕 */
+.toggle-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+/* 側邊欄導覽項目列表 */
 .nav-list {
   list-style: none;
-  padding-left: 10px;
+  padding-left: 0;
+  text-indent: 10px;
+  line-height: 2;
 }
 
+/* 單一導覽項目 */
+.nav-list li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: background-color 0.2s;
+}
+
+/* 滑鼠移動到導覽項目時變色 */
+.nav-list li:hover {
+  background-color: #eee;
+}
+
+/* 點擊後的導覽項目樣式 */
+.nav-list li.active {
+  background-color: #4f4f4f;
+  color: white;
+  font-weight: bold;
+}
+
+/* 側邊欄登入/註冊連結區塊（固定在底部） */
 .auth-links {
   position: absolute;
   bottom: 20px;
@@ -39,8 +85,96 @@
   font-size: 14px;
 }
 
+/* 登入/註冊連結樣式 */
 .auth-links a {
-  color: #333;
+  color: #000000;
   text-decoration: none;
   margin: 0 5px;
+}
+
+/* 讓搜尋欄及主內容能顯示超出範圍的元素（例如 dropdown）*/
+.search-bar, .main-content {
+  overflow: visible !important;
+}
+
+/* ===== 主內容區域（右側）===== */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* 提供 search-bar 絕對定位的依據 */
+}
+
+/* ===== 搜尋欄容器（浮在地圖上方中央）===== */
+.search-bar {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 單一搜尋輸入框 */
+.search-input {
+  font-size: 16px;
+  width: 300px;
+  border: 1px solid #808080;
+}
+
+/* 篩選按鈕群組容器（水平排列） */
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* 單一篩選區塊（包含按鈕與下拉） */
+.filter-group {
+  position: relative;
+}
+
+/* 篩選 pill-style 按鈕 */
+.filter-pill {
+  border: 1px solid #808080;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* 篩選按鈕 hover 效果 */
+.filter-pill:hover {
+  background-color: #ffffff;
+  border-color: #272727;
+}
+
+/* 下拉式選單容器 */
+.filter-dropdown {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background: white;
+  border: 1px solid #7e7e7e;
+  z-index: 1001;
+  width: 80px;
+}
+
+/* 單一下拉選項 */
+.dropdown-option {
+  padding: 5px 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* 下拉選項 hover 效果 */
+.dropdown-option:hover {
+  background-color: #f1f1f1;
+}
+
+/* ===== 地圖區塊樣式 ===== */
+.map {
+  flex: 1;
 }

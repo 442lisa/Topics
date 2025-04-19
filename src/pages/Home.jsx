@@ -1,69 +1,164 @@
-import { useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
-import { Link } from "react-router-dom";
+import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import "../styles/home.css";
+import L from "leaflet";
+import "../styles/Home.css";
+import eventData from "../data/randomEvent.json";
+import { useEffect, useState } from "react";
 
-// 游標點擊後儲存經緯度
-function ClickMarker({ onClick }) {
-  useMapEvents({
-    click(e) {
-      onClick(e.latlng);
-    },
-  });
-  return null;
-}
+// 自訂 Marker 圖示 (避免預設圖示錯誤)
+const customIcon = new L.Icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
 
-export default function Home() {
-  const [markers, setMarkers] = useState([]);
+function Home() {
+  const [events, setEvents] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activePage, setActivePage] = useState("activity");
+  const [openFilter, setOpenFilter] = useState(null); // 追蹤哪個篩選在展開
 
-  const handleMapClick = (latlng) => {
-    setMarkers((prev) => [...prev, latlng]);
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // 只要點的不是篩選器或下拉選單，就關掉
+      if (!event.target.closest(".filter-group")) {
+        setOpenFilter(null);
+      }
+    };
+    
+    document.addEventListener("click", handleClickOutside);
 
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+  
   return (
     <div className="home-container">
-      <div className="sidebar">
-        <h3>導覽列</h3>
-        <ul className="nav-list">
-          <li>選項1 {/* TODO: 可自訂導覽項目 */}</li>
-          <li>選項2</li>
-          <li>選項3</li>
-        </ul>
-
-        {/* 登入 / 註冊區塊 */}
-        <div className="auth-links">
-          <Link to="/login">登入</Link>
-          <span> / </span>
-          <Link to="/register">註冊</Link>
+      {/* 側邊欄 */}
+      <div className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}>
+        <div className="sidebar-header">
+          {sidebarOpen && <span className="sidebar-title">導覽</span>}          <button
+            className="toggle-btn"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            ☰
+          </button>
         </div>
+        {sidebarOpen && (
+          <>
+            <ul className="nav-list">
+              <li
+                className={activePage === "activity" ? "active" : ""}
+                onClick={() => setActivePage("activity")}
+              >
+                活動列表
+              </li>
+              <li
+                className={activePage === "favorites" ? "active" : ""}
+                onClick={() => setActivePage("favorites")}
+              >
+                我的收藏
+              </li>
+              <li
+                className={activePage === "settings" ? "active" : ""}
+                onClick={() => setActivePage("settings")}
+              >
+                設定
+              </li>
+            </ul>
+            <div className="auth-links">
+              <a href="Login">登入</a>
+              <a href="Register">註冊</a>
+            </div>
+          </>
+        )}
       </div>
 
+      {/* 主內容區域 */}
       <div className="main-content">
+        {/* 搜尋欄 */}
         <div className="search-bar">
-          <input type="text" placeholder="搜尋關鍵字..." />
-  
-          <select>
-            <option value="">篩選器</option>
-            <option value="filter1">選項一</option>
-            <option value="filter2">選項二</option>
-            <option value="filter3">選項三</option>
-          </select>
+          <input type="text" placeholder="搜尋活動..." className="search-input" />
+          <div className="filter-buttons">
+              <div className="filter-group">
+                <button
+                  className="filter-pill"
+                  onClick={() => setOpenFilter(openFilter === 'category' ? null : 'category')}
+                >
+                  類別
+                </button>
+                {openFilter === 'category' && (
+                  <div className="filter-dropdown">
+                    <div className="dropdown-option">演唱會</div>
+                    <div className="dropdown-option">市集</div>
+                    <div className="dropdown-option">展覽</div>
+                  </div>
+                )}
+              </div>
+
+              <div className="filter-group">
+                <button
+                  className="filter-pill"
+                  onClick={() => setOpenFilter(openFilter === 'city' ? null : 'city')}
+                >
+                  城市
+                </button>
+                {openFilter === 'city' && (
+                  <div className="filter-dropdown">
+                    <div className="dropdown-option">台北</div>
+                    <div className="dropdown-option">新北</div>
+                    <div className="dropdown-option">台中</div>
+                  </div>
+                )}
+              </div>
+
+              <div className="filter-group">
+                <button
+                  className="filter-pill"
+                  onClick={() => setOpenFilter(openFilter === 'date' ? null : 'date')}
+                >
+                  日期
+                </button>
+                {openFilter === 'date' && (
+                  <div className="filter-dropdown">
+                    <div className="dropdown-option">今天</div>
+                    <div className="dropdown-option">明天</div>
+                    <div className="dropdown-option">這週</div>
+                  </div>
+                )}
+              </div>
+          </div>
         </div>
 
-        <MapContainer center={[25.038, 121.5645]} zoom={13} className="map">
+        {/* 地圖 */}
+        <MapContainer
+          center={[25.033964, 121.564468]}
+          zoom={13}
+          style={{ height: "80vh", width: "100%" }}
+          className="map"
+        >
           <TileLayer
             attribution='&copy; OpenStreetMap'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <ClickMarker onClick={handleMapClick} />
-          {markers.map((position, idx) => (
-            <Marker key={idx} position={position}>
-              <Popup>
-                這是點選的座標：<br />
-                經度：{position.lng.toFixed(4)}<br />
-                緯度：{position.lat.toFixed(4)}
-              </Popup>
+
+          {/* 顯示活動點 */}
+          {eventData.map((event) => (
+            <Marker
+              key={event.id}
+              position={[event.latitude, event.longitude]}
+              icon={customIcon}
+            >
+              <Tooltip direction="top" offset={[0, -20]} opacity={1}>
+                <div>
+                  <strong>{event.name}</strong>
+                  <br />
+                  {event.content}
+                  <br />
+                  {event.address}
+                </div>
+              </Tooltip>
             </Marker>
           ))}
         </MapContainer>
@@ -71,3 +166,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
