@@ -129,6 +129,8 @@
 .filter-buttons {
   display: flex;
   gap: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 /* 單一篩選區塊（包含按鈕與下拉） */
@@ -174,7 +176,68 @@
   background-color: #f1f1f1;
 }
 
+/* 日期選擇的日曆樣式 */
+.calendar-dropdown {
+  position: absolute;
+  width: auto;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.react-datepicker {
+  font-size: 14px;
+}
+
 /* ===== 地圖區塊樣式 ===== */
 .map {
   flex: 1;
+}
+
+/* ===== 活動資訊滑動區塊 ===== */
+.event-slider {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 10px 20px;
+  width: 90%;
+  border-radius: 12px;
+  z-index: 999;
+  scrollbar-width: none; /* Firefox 隱藏滾動條 */
+}
+
+/* 單一活動卡片 */
+.event-card {
+  min-width: 220px;
+  background-color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 活動名稱 */
+.event-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* 活動其他資訊（地址、內容等） */
+.event-info {
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+/* 點擊時高亮卡片的動畫樣式 */
+.highlight-card {
+  border: 2px solid #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
+  transition: border 0.3s, box-shadow 0.3s;
 }
